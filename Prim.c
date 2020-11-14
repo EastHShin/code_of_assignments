@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #define TRUE 1
 #define FALSE 0
@@ -16,28 +18,28 @@ int weight[MAX_VERTEX][MAX_VERTEX] = {
 };
 
 int T[7];
-int TV[7][7] = {0};
+int TV[7][7] = { 0 };
 int count = 0;
-int getMinVertex(int n){
-    int i,j,k;
+int getMinVertex(int n) {
+    int i, j, k;
     int v;
-    int row, col;
+    int row = 0, col = 0;
     int min = 1000;
     int isTrue = 0;
-    for(i=0; i<count; i++){
+    for (i = 0; i < count; i++) {
         v = T[i];
-        for(j=0; j<n;j++){
-            for(k=0; k<count;k++) {
+        for (j = 0; j < n; j++) {
+            for (k = 0; k < count; k++) {
                 if (j == T[k]) {
                     isTrue = TRUE;
                     break;
                 }
             }
-            if(isTrue == TRUE) {
+            if (isTrue == TRUE) {
                 isTrue = FALSE;
                 continue;
             }
-            if(weight[v][j] < min) {
+            if (weight[v][j] < min) {
                 min = weight[v][j];
                 row = v;
                 col = j;
@@ -48,29 +50,32 @@ int getMinVertex(int n){
     return col;
 }
 
-void Prim(int n){
-    int i,j;
+void Prim(int n) {
+    int i, j;
     int u, v;
     T[0] = 0;
     count++;
 
-    for(i=0; i<n;i++){
+    for (i = 0; i < n; i++) {
         u = getMinVertex(n);
         T[count++] = u;
     }
     count--;
-    for(i=0; i<count;i++)
+    printf("TV={");
+    for (i = 0; i < count; i++)
         printf("%d  ", T[i]);
-    printf("\n");
-    for(i=0;i<count;i++){
-        for(j=0;j<count;j++){
-            if(TV[i][j] == TRUE)
-                printf("(%d,%d)  ", i,j);
+    printf("}, T={");
+    for (i = 0; i < count; i++) {
+        for (j = 0; j < count; j++) {
+            if (TV[i][j] == TRUE)
+                printf("(%d,%d) ", i, j);
         }
     }
+    printf("}\n");
 }
 
 int main() {
+    printf("Prim's algorithm을 이용한 minimum cost spanning tree 생성:\n");
     Prim(7);
     return 0;
 }
